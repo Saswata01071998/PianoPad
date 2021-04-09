@@ -71,16 +71,15 @@
             android:layout_weight="0.5"
             />
 
-        <Button
-            android:id="@+id/button5"
+        <ImageView
+            android:id="@+id/image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/book"
-            android:textSize="30sp"
-            android:onClick="playJ"
-            android:layout_weight="0.5"
-
+            android:layout_weight=".5"
+            android:scaleType="fitXY"
             />
+
+
         <Button
             android:id="@+id/button10"
             android:layout_width="match_parent"
@@ -175,6 +174,35 @@
             />
 
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        >
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".75"
+            android:text="Previous"
+            android:background="#27A070"
+            android:onClick="previous"
+
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.45"
+
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight=".75"
+            android:text="Next"
+            android:background="#27A070"
+            android:onClick="next"
+            />
     </LinearLayout>
 </LinearLayout>
 

@@ -1,13 +1,22 @@
 
 package com.example.pianokids;
 
+
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
     private final int NR_OF_MAXSTREAM = 12;
@@ -44,11 +53,18 @@ public class MainActivity extends AppCompatActivity {
     final float LEFT_VOLUME = 1.0f;
     final float RIGHT_VOLUME = 1.0f;
     SoundPool mSoundPool;
+    Button b1,b2,b3,b4;
+    int i=0,l;
+    RealmResults<RData> realmResults;
+    ImageView image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSoundPool = new SoundPool(NR_OF_MAXSTREAM, AudioManager.STREAM_MUSIC,1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        APIToDatabase apiToDatabase = new APIToDatabase();
+        apiToDatabase.retrieveData();
         mBSoundId = mSoundPool.load(this,R.raw.pb,1);
         mHSoundId = mSoundPool.load(this,R.raw.ph,1);
         mNSoundId = mSoundPool.load(this,R.raw.pn,1);
@@ -77,6 +93,16 @@ public class MainActivity extends AppCompatActivity {
         mYSoundId = mSoundPool.load(this,R.raw.py,1);
         mZSoundId = mSoundPool.load(this,R.raw.pz,1);
 
+        Realm realm = Realm.getDefaultInstance();
+        realmResults=realm.where(RData.class).findAll();
+        realm.close();
+        b1= (Button) findViewById(R.id.button1);
+        b2= (Button) findViewById(R.id.button2);
+        b3= (Button) findViewById(R.id.button3);
+        b4= (Button) findViewById(R.id.button4);
+        l=realmResults.size();
+        image=(ImageView) findViewById(R.id.image);
+        new ImageLoad(realmResults.get(0).getDescription(),image).execute();
 
     }
 
@@ -177,6 +203,45 @@ public class MainActivity extends AppCompatActivity {
                 default:break;
             }
             Thread.sleep(1000);
+        }
+    }
+
+    public void next(View view) {
+        i++;
+        if(i<l)
+        {
+            String s= realmResults.get(i).getTitle();
+            b2.setText(String.valueOf(s.charAt(0)));
+            b1.setText(String.valueOf(s.charAt(1)));
+            b4.setText(String.valueOf(s.charAt(2)));
+            b3.setText(String.valueOf(s.charAt(3)));
+            new ImageLoad(realmResults.get(i).getDescription(),image).execute();
+
+        }
+        else {
+            i = 0;
+            new ImageLoad(realmResults.get(i).getDescription(),image).execute();
+
+        }
+
+    }
+
+    public void previous(View view) {
+
+        i--;
+        if(i>=0)
+        {
+            String s= realmResults.get(i).getTitle();
+            b2.setText(String.valueOf(s.charAt(0)));
+            b1.setText(String.valueOf(s.charAt(1)));
+            b4.setText(String.valueOf(s.charAt(2)));
+            b3.setText(String.valueOf(s.charAt(3)));
+            new ImageLoad(realmResults.get(i).getDescription(),image).execute();
+
+        }
+        else {
+            i = 0;
+
         }
     }
 }
