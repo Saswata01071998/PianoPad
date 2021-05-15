@@ -5,18 +5,24 @@ import com.google.gson.annotations.SerializedName;
 
 public class Word {
 
-        @SerializedName("_id")
-        @Expose
-        private String id;
-        @SerializedName("title")
-        @Expose
-        private String title;
-        @SerializedName("description")
-        @Expose
-        private String description;
-        @SerializedName("__v")
-        @Expose
-        private Integer v;
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("word")
+    @Expose
+    private String word;
+    @SerializedName("jword")
+    @Expose
+    private String jword;
+    @SerializedName("imglink")
+    @Expose
+    private String imglink;
+    @SerializedName("n")
+    @Expose
+    private Integer n;
+    @SerializedName("__v")
+    @Expose
+    private Integer v;
 
     public String getId() {
         return id;
@@ -26,20 +32,36 @@ public class Word {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getWord() {
+        return word;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setWord(String word) {
+        this.word = word;
     }
 
-    public String getDescription() {
-        return description;
+    public String getJword() {
+        return jword;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setJword(String jword) {
+        this.jword = jword;
+    }
+
+    public String getImglink() {
+        return imglink;
+    }
+
+    public void setImglink(String imglink) {
+        this.imglink = imglink;
+    }
+
+    public Integer getN() {
+        return n;
+    }
+
+    public void setN(Integer n) {
+        this.n = n;
     }
 
     public Integer getV() {

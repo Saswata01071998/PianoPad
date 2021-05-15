@@ -19,7 +19,7 @@ public class APIToDatabase {
     public static String base_url="http://projectelapi.herokuapp.com/";
     List<Word> serverList;
     RealmResults<RData> wordRealmResults;
-
+    int f=0;
     public void retrieveData()
     {
         final Realm realm = Realm.getDefaultInstance();
@@ -40,6 +40,7 @@ public class APIToDatabase {
                     if(wordRealmResults.size() < serverList.size())
                     {
                         int l=serverList.size(),i=0;
+
                         try{
                                 realm.beginTransaction();
                                 if(wordRealmResults!=null)
@@ -48,17 +49,26 @@ public class APIToDatabase {
                                 {
                                     RData obj =realm.createObject(RData.class);
                                     obj.setId(serverList.get(i).getId());
-                                    obj.setDescription(serverList.get(i).getDescription());
-                                    obj.setTitle(serverList.get(i).getTitle());
+                                    obj.setImglink(serverList.get(i).getImglink());
+                                    obj.setJword(serverList.get(i).getJword());
+                                    obj.setWord(serverList.get(i).getWord());
+                                    obj.setN(serverList.get(i).getN());
                                     obj.setV(serverList.get(i).getV());
                                     i++;
                                 }
                                 realm.commitTransaction();
-
+                                f=1;
                         }
                         catch (Exception e){}
+                        finally {
+                            EventBus.getDefault().post(new EventBusPojo(f));
+                            realm.close();
+                        }
+
                     }
+
                 }
+
             }
 
             @Override

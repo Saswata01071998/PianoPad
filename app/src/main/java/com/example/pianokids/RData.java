@@ -1,29 +1,25 @@
 package com.example.pianokids;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class RData extends RealmObject {
-    public String title;
-    public String id;
-    public String description;
-    public Integer v;
+
+
+    private String id;
+    private String word,jword,imglink;
+   private Integer n,v;
 
     public RData() {
     }
 
-    public RData(String title, String id, String description, Integer v) {
-        this.title = title;
+    public RData(String id, String word, String jword, String imglink, Integer n, Integer v) {
         this.id = id;
-        this.description = description;
+        this.word = word;
+        this.jword = jword;
+        this.imglink = imglink;
+        this.n = n;
         this.v = v;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getId() {
@@ -34,12 +30,36 @@ public class RData extends RealmObject {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getWord() {
+        return word;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getJword() {
+        return jword;
+    }
+
+    public void setJword(String jword) {
+        this.jword = jword;
+    }
+
+    public String getImglink() {
+        return imglink;
+    }
+
+    public void setImglink(String imglink) {
+        this.imglink = imglink;
+    }
+
+    public Integer getN() {
+        return n;
+    }
+
+    public void setN(Integer n) {
+        this.n = n;
     }
 
     public Integer getV() {

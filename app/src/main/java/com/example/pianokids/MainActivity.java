@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     final float LEFT_VOLUME = 1.0f;
     final float RIGHT_VOLUME = 1.0f;
     SoundPool mSoundPool;
-    Button b1,b2,b3,b4;
+    Button b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11;
     int i=0,l;
     RealmResults<RData> realmResults;
     ImageView image;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mSoundPool = new SoundPool(NR_OF_MAXSTREAM, AudioManager.STREAM_MUSIC,1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EventBus.getDefault().register(this);
         APIToDatabase apiToDatabase = new APIToDatabase();
         apiToDatabase.retrieveData();
         mBSoundId = mSoundPool.load(this,R.raw.pb,1);
@@ -100,9 +103,29 @@ public class MainActivity extends AppCompatActivity {
         b2= (Button) findViewById(R.id.button2);
         b3= (Button) findViewById(R.id.button3);
         b4= (Button) findViewById(R.id.button4);
+        b5= (Button) findViewById(R.id.button5);
+        b6= (Button) findViewById(R.id.button6);
+
+        b8= (Button) findViewById(R.id.button8);
+        b9= (Button) findViewById(R.id.button9);
+        b10= (Button) findViewById(R.id.button10);
+        b11= (Button) findViewById(R.id.button11);
         l=realmResults.size();
         image=(ImageView) findViewById(R.id.image);
-        new ImageLoad(realmResults.get(0).getDescription(),image).execute();
+        if(realmResults.size()!=0)
+            new ImageLoad(realmResults.get(0).getImglink(),image).execute();
+
+    }
+    @Subscribe
+    public void imageCall(EventBusPojo eventBusPojo)
+    {
+        if (eventBusPojo.getFlag()==1) {
+            new ImageLoad(realmResults.get(0).getImglink(), image).execute();
+            Realm realm = Realm.getDefaultInstance();
+            realmResults = realm.where(RData.class).findAll();
+            realm.close();
+            l=realmResults.size();
+        }
 
     }
 
@@ -210,17 +233,34 @@ public class MainActivity extends AppCompatActivity {
         i++;
         if(i<l)
         {
-            String s= realmResults.get(i).getTitle();
+            String s= realmResults.get(i).getJword();
             b2.setText(String.valueOf(s.charAt(0)));
             b1.setText(String.valueOf(s.charAt(1)));
             b4.setText(String.valueOf(s.charAt(2)));
             b3.setText(String.valueOf(s.charAt(3)));
-            new ImageLoad(realmResults.get(i).getDescription(),image).execute();
+            b5.setText(String.valueOf(s.charAt(4)));
+            b6.setText(String.valueOf(s.charAt(5)));
+            b8.setText(String.valueOf(s.charAt(7)));
+            b9.setText(String.valueOf(s.charAt(8)));
+            b10.setText(String.valueOf(s.charAt(9)));
+            b11.setText(String.valueOf(s.charAt(10)));
+            new ImageLoad(realmResults.get(i).getImglink(),image).execute();
 
         }
         else {
             i = 0;
-            new ImageLoad(realmResults.get(i).getDescription(),image).execute();
+            String s= realmResults.get(i).getJword();
+            b2.setText(String.valueOf(s.charAt(0)));
+            b1.setText(String.valueOf(s.charAt(1)));
+            b4.setText(String.valueOf(s.charAt(2)));
+            b3.setText(String.valueOf(s.charAt(3)));
+            b5.setText(String.valueOf(s.charAt(4)));
+            b6.setText(String.valueOf(s.charAt(5)));
+            b8.setText(String.valueOf(s.charAt(7)));
+            b9.setText(String.valueOf(s.charAt(8)));
+            b10.setText(String.valueOf(s.charAt(9)));
+            b11.setText(String.valueOf(s.charAt(10)));
+            new ImageLoad(realmResults.get(i).getImglink(),image).execute();
 
         }
 
@@ -231,17 +271,29 @@ public class MainActivity extends AppCompatActivity {
         i--;
         if(i>=0)
         {
-            String s= realmResults.get(i).getTitle();
+            String s= realmResults.get(i).getJword();
             b2.setText(String.valueOf(s.charAt(0)));
             b1.setText(String.valueOf(s.charAt(1)));
             b4.setText(String.valueOf(s.charAt(2)));
             b3.setText(String.valueOf(s.charAt(3)));
-            new ImageLoad(realmResults.get(i).getDescription(),image).execute();
+            b5.setText(String.valueOf(s.charAt(4)));
+            b6.setText(String.valueOf(s.charAt(5)));
+            b8.setText(String.valueOf(s.charAt(7)));
+            b9.setText(String.valueOf(s.charAt(8)));
+            b10.setText(String.valueOf(s.charAt(9)));
+            b11.setText(String.valueOf(s.charAt(10)));
+            new ImageLoad(realmResults.get(i).getImglink(),image).execute();
 
         }
         else {
             i = 0;
 
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
     }
 }

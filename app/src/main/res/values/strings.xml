@@ -12,4 +12,6 @@
     <string name="e">E</string>
     <string name="r">R</string>
     <string name="_5">5</string>
+    <string name="tick">✓</string>
+    <string name="question">?</string>
 </resources>
